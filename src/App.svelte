@@ -9,12 +9,11 @@ function loginScreen(e) {
 </script>
 
 <main>
-<!-- {#if value}
+{#if value}
 <Dashboard />
 {:else}
 <LoginPage on:Access={loginScreen}/> 
-{/if} -->
-<Dashboard />
+{/if}
 </main>
   
 <style>
