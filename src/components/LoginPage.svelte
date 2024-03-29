@@ -1,54 +1,71 @@
 <script>
-import { createEventDispatcher} from "svelte";
-
-const dispatcher = createEventDispatcher();
-
-let username;
-let password;
-let errmsg = ""
-async function login() {
-  const user = {
-    user: username, // Access properties directly using destructuring
-    pass: password
-};
-  try {
-    const response = await fetch('http://localhost:5000/admin', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user)
-    });
-
-   if(response.ok) {
-      let AllowAcess = true;
-      dispatcher("Access", AllowAcess);
-   } 
-   if (response.status === 401) {
-    errmsg = "Incorrect Username or Password";
-   }
-      
-  } catch (err) {
-     errmsg = "Unable to Connect to Server"; // Log the error message
-}
-}
-
-
-</script>
+  import { createEventDispatcher } from 'svelte';
   
-<main style={`background-image: url('resources/nust.jpg')`}>
-<section>
-<div>
-  <h1 class="h1">Admin Login</h1>
-  <input type="text" class="usrname" placeholder="Enter your Username" bind:value={username}>
-  <input type="password" class="pasw" placeholder="Enter your Password" bind:value={password}>
-  <button on:click={login}>Login</button>
-  <p class="errMsg">{errmsg}</p>
-  </div>
-  <p class="fpass">Forget Password?</p>
-</section>
-</main> 
+  const dispatcher = createEventDispatcher();
+  
+  let username = '';
+  let password = '';
+  let errorMsg = '';
+  
+  async function handleLogin() {
+    const user = {
+      user: username, // Use destructuring for clarity
+      pass: password,
+    };
+  
+    try {
+      const response = await fetch('http://localhost:5000/admin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      });
+  
+      if (response.ok) {
+        errorMsg = ''; // Clear error message on successful login
+        dispatcher('Access', true);
+      } else if (response.status === 401) {
+        errorMsg = 'Incorrect Username or Password';
+      } else {
+        errorMsg = 'An error occurred. Please try again later.';
+      }
+    } catch (error) {
+      errorMsg = 'Unable to Connect to Server';
+      console.error('Login error:', error); // Log the actual error for debugging
+    }
+  }
 
+  function SubmitFormm() {
+    
+  }
+  </script>
+  
+  <main style="background-image: url('resources/nust.jpg')">
+    <section>
+      <div class="login-form">
+        <h1 class="h1">Admin Login</h1>
+        <input
+          type="text"
+          class="usrname"
+          placeholder="Enter your Username"
+          bind:value={username}
+          on:keydown={e => (errorMsg = '')}
+        />
+        <input
+          type="password"
+          class="pasw"
+          placeholder="Enter your Password"
+          bind:value={password}
+          on:keydown={e => (errorMsg = '')}
+        />
+        <button on:click={handleLogin}>Login</button>
+        <p class="errMsg">{errorMsg}</p>
+      </div>
+      <p class="forgetPassword">Forget Password?</p>
+    </section>
+  </main>
+  
 <style>
 main{
   width: 100svw;
@@ -108,9 +125,10 @@ h1 {
   font-size: 2rem;
 }
 
-.fpass {
+.forgetPassword {
 text-align: center;
 color: gray;  
+cursor:pointer;
 }
 
 </style>
