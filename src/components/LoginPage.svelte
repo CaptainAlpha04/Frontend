@@ -1,45 +1,40 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
-  
-  const dispatcher = createEventDispatcher();
-  
-  let username = '';
-  let password = '';
-  let errorMsg = '';
-  
-  async function handleLogin() {
-    const user = {
-      user: username, // Use destructuring for clarity
-      pass: password,
-    };
-  
-    try {
-      const response = await fetch('http://localhost:5000/admin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      });
-  
-      if (response.ok) {
-        errorMsg = ''; // Clear error message on successful login
-        dispatcher('Access', true);
-      } else if (response.status === 401) {
-        errorMsg = 'Incorrect Username or Password';
-      } else {
-        errorMsg = 'An error occurred. Please try again later.';
-      }
-    } catch (error) {
-      errorMsg = 'Unable to Connect to Server';
-      console.error('Login error:', error); // Log the actual error for debugging
-    }
-  }
-
-  function SubmitFormm() {
+    import { createEventDispatcher } from 'svelte';
+    const dispatcher = createEventDispatcher();
     
-  }
-  </script>
+    let username = '';
+    let password = '';
+    let errorMsg = '';
+    
+    async function handleLogin() {
+      const user = {
+        user: username, // Use destructuring for clarity
+        pass: password,
+      };
+    
+      try {
+        const response = await fetch('http://localhost:5000/admin', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(user),
+        });
+    
+        if (response.ok) {
+          errorMsg = ''; // Clear error message on successful login
+          dispatcher('Access', true);
+        } else if (response.status === 401) {
+          errorMsg = 'Incorrect Username or Password';
+        } else {
+          errorMsg = 'An error occurred. Please try again later.';
+        }
+      } catch (error) {
+        errorMsg = 'Unable to Connect to Server';
+        console.error('Login error:', error); // Log the actual error for debugging
+      }
+    }
+    </script>
   
   <main style="background-image: url('resources/nust.jpg')">
     <section>

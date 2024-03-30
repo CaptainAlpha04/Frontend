@@ -21,6 +21,7 @@
   "dependencies": {
     "@flaticon/flaticon-uicons": "^3.1.0",
     "cookie-parser": "^1.4.6",
+    "js-cookie": "^3.0.5",
     "sirv-cli": "^2.0.0",
     "svelte-icons": "^2.1.0",
     "svelte-uicons": "^0.1.4"
