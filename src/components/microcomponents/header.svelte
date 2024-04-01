@@ -8,9 +8,9 @@ function ChangeRoute(event, NavOption) {
     if (CurrentBtn) {
         event.currentTarget.parentElement.querySelectorAll('.nav-btn').forEach(div => div.classList.remove('active'));
         CurrentBtn.classList.add('active');
-
-        RouteHandler('NavOption', NavOption);
     }
+    RouteHandler('NavOption', NavOption);
+
 }
 </script>
 
@@ -36,9 +36,9 @@ function ChangeRoute(event, NavOption) {
     <i class="fi fi-rr-shield-keyhole"></i>
 </div>
 
-<div class="Account">
+<div class="Account" on:click={(event) => ChangeRoute(event, 6)}>
     <div class="accountImg">
-        <img src="" alt="">
+        <img src="/resources/user-default.png" alt="User Account">
     </div>
 </div>
 </section>
@@ -48,7 +48,7 @@ section {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgb(230, 230, 230);
+    background-color: var(--background-color);
     height: 100svh;
     width: 5svw;
     min-width: 4.5svw;
@@ -77,12 +77,31 @@ i{
 
 .Account {
     margin-top: auto;
-    margin-bottom: 1rem;
+    margin-bottom: 1rem; 
+    display:flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.accountImg {
+    background-color: rgb(192, 192, 192);
+    border-radius: 100%;
+    height: 3svw;
+    width: 3svw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.accountImg img{
+    width: 2.5svw;
+    height: 2.5svw;
+    max-height: 2.5svw;
 }
 .nav-btn:hover{
     background-color: rgba(0, 34, 146, 0.37);
 }
 :global(.active) {
-    background-color: rgba(0, 164, 175, 0.664);
+    background-color: var(--tertiary-accent-color);
 }
 </style>
