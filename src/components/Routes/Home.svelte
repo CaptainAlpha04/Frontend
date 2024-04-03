@@ -1,18 +1,25 @@
 <script >
-  import ContentGrid from "../uicomponents/content-grid.svelte";
+import ContentGrid from "../uicomponents/content-grid.svelte";
+import Card from "../uicomponents/card.svelte";
+import {createEventDispatcher} from "svelte";
 
-  let cardsProperties = [
-    { columnSpan: 1, rowSpan: 2 },
-    { columnSpan: 1, rowSpan: 2 },
-    { columnSpan: 1, rowSpan: 3 },
-    { columnSpan: 1, rowSpan: 1 },
-    { columnSpan: 1, rowSpan: 1 },
-  ];
+const redirectPath = createEventDispatcher();
+
+function redirectRoute() {
+    
+}
+
 </script>
 
 <main>
 <h1>Dashboard</h1>
-<ContentGrid {cardsProperties}/>
+<ContentGrid>
+<Card rowSpan = 2 columnSpan = 2 on:click={redirectRoute}/>
+<Card rowSpan = 2 columnSpan = 2/>
+<Card rowSpan = 8 columnSpan = 1/>
+<Card rowSpan = 1 columnSpan = 1/>
+<Card rowSpan = 1 columnSpan = 1/>
+</ContentGrid>
 </main>
 
 <style>

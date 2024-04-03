@@ -1,17 +1,16 @@
 <script>
 export let columnSpan = 4;
 export let rowSpan = 1;
-let gridSpan = `grid-column: span ${columnSpan}; grid-area: span ${rowSpan}`;
-
+let gridSpan = `grid-column-start: span ${columnSpan}; grid-row-start: span ${rowSpan}`;
 </script>
 
 <main style={gridSpan}>
-<h1>Hello World</h1>
+<slot>hello</slot>
 </main>
 
 <style>
 main {
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     min-width: 0svw;
     min-height: 0svh;
     max-width: 100svw;
@@ -21,6 +20,7 @@ main {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     cursor: pointer;
     transition: all 100ms ease;
+    
 }
 
 main:hover{
