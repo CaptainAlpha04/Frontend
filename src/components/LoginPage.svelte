@@ -1,66 +1,69 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
-    const dispatcher = createEventDispatcher();
-    
-    let username = '';
-    let password = '';
-    let errorMsg = '';
-    
-    async function handleLogin() {
-      const user = {
-        user: username, // Use destructuring for clarity
-        pass: password,
-      };
-    
-      try {
-        const response = await fetch('http://localhost:5000/admin', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(user),
-        });
-    
-        if (response.ok) {
-          errorMsg = ''; // Clear error message on successful login
-          dispatcher('Access', true);
-        } else if (response.status === 401) {
-          errorMsg = 'Incorrect Username or Password';
-        } else {
-          errorMsg = 'An error occurred. Please try again later.';
-        }
-      } catch (error) {
-        errorMsg = 'Unable to Connect to Server';
-        console.error('Login error:', error); // Log the actual error for debugging
+  // Import necessary module and function
+  import { createEventDispatcher } from 'svelte';
+  const dispatcher = createEventDispatcher();
+
+  // Initialize variables for username, password, and error message
+  let username = '';
+  let password = '';
+  let errorMsg = '';
+
+  // Function to handle login attempt
+  async function handleLogin() {
+    const user = {
+      user: username, // Use destructuring for clarity
+      pass: password,
+    };
+
+    try {
+      // Send login request to the server
+      const response = await fetch('http://localhost:5000/admin/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+        credentials: 'include', // Include cookies in the request
+      });
+
+      if (response.ok) {
+        errorMsg = ''; // Clear error message on successful login
+        dispatcher('Access', true); // Dispatch event to notify successful login
+      } else if (response.status === 401) {
+        errorMsg = 'Incorrect Username or Password'; // Display error message for authentication failure
+      } else {
+        errorMsg = 'An error occurred. Please try again later.'; // Display generic error message for other failures
       }
+    } catch (error) {
+      errorMsg = 'Unable to Connect to Server'; // Display error message for server connection failure
+      console.error('Login error:', error); // Log the actual error for debugging
     }
-    </script>
-  
-  <main style="background-image: url('resources/nust.jpg')">
-    <section>
-      <div class="login-form">
-        <h1 class="h1">Admin Login</h1>
-        <input
-          type="text"
-          class="usrname"
-          placeholder="Enter your Username"
-          bind:value={username}
-          on:keydown={e => (errorMsg = '')}
-        />
-        <input
-          type="password"
-          class="pasw"
-          placeholder="Enter your Password"
-          bind:value={password}
-          on:keydown={e => (errorMsg = '')}
-        />
-        <button on:click={handleLogin}>Login</button>
-        <p class="errMsg">{errorMsg}</p>
-      </div>
-      <p class="forgetPassword">Forget Password?</p>
-    </section>
-  </main>
-  
+  }
+</script>
+
+<main style="background-image: url('resources/nust.jpg')">
+  <section>
+    <div class="login-form">
+      <h1 class="h1">Admin Login</h1>
+      <input
+        type="text"
+        placeholder="Enter your Username"
+        bind:value={username}
+        on:keydown={e => (errorMsg = '')}
+      />
+      <input
+        type="password"
+        placeholder="Enter your Password"
+        bind:value={password}
+        on:keydown={e => (errorMsg = '')}
+      />
+      <button on:click={handleLogin}>Login</button>
+      <p class="errMsg">{errorMsg}</p> <!-- Display error message if any -->
+    </div>
+    <p class="forgetPassword">Forget Password?</p>
+  </section>
+</main>  
+
 <style>
 main{
   width: 100svw;
@@ -99,9 +102,9 @@ div {
 }
 
 input {
-  padding: 0.7rem;
+  padding: 0.8rem;
   border: none;
-  border-bottom: 3px solid orange;
+  border-bottom: 3px solid var(--first-primary-accent-color);
   background-color: transparent;  
   color: white;
 }

@@ -1,8 +1,12 @@
 <script>
+export let columnTemplate = 5;
+export let rowTemplate = 5;
+
+let gridStyle = `grid-template-columns: repeat(${columnTemplate}, 1fr); grid-template-rows: repeat(${rowTemplate}, 1fr);`;
 
 </script>
 
-<main>
+<main style={gridStyle}>
     <slot></slot>
 </main>
 

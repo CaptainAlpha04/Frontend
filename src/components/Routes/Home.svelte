@@ -2,6 +2,7 @@
 import ContentGrid from "../uicomponents/content-grid.svelte";
 import Card from "../uicomponents/card.svelte";
 import {createEventDispatcher} from "svelte";
+import Breadcrumb from "../uicomponents/breadcrumb.svelte";
 
 const redirectPath = createEventDispatcher();
 

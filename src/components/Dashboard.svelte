@@ -7,6 +7,7 @@ import Services from './Routes/Services.svelte';
 import Queries from './Routes/Queries.svelte';
 import Security from './Routes/SecurityRoute.svelte';
 import Account from './Routes/AccountRoute.svelte';
+import NewStudentForm from './Routes/Subroutes/newStudentForm.svelte';
 
 let NavigationRoute  = 0;
 const Route = 'Home';
@@ -24,7 +25,7 @@ function ChangeTheme() {
 <main>
     <Header on:NavOption = {HandleNavigation}/>
     {#if NavigationRoute === 0}
-    <Home />
+    <NewStudentForm />
     {:else if NavigationRoute === 1}
     <Student />
     {:else if NavigationRoute === 2}
