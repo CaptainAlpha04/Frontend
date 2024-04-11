@@ -1,4 +1,5 @@
 <script>
+import { onMount } from 'svelte';
 import Header from './microcomponents/Header.svelte';
 import Home from "./Routes/Home.svelte";
 import Student from './Routes/StudentRoute.svelte';
@@ -10,40 +11,41 @@ import Account from './Routes/AccountRoute.svelte';
 import NewStudentForm from './Routes/Subroutes/newStudentForm.svelte';
 
 let NavigationRoute  = 0;
-const Route = 'Home';
+const routes = {
+    0: Home,
+    1: Student,
+    2: Hostel,
+    3: Services,
+    4: Queries,
+    5: Security,
+    6: Account
+};
+
 const HandleNavigation = (e) => {
     NavigationRoute = e.detail;
 }
 
+// onMount(() => {
+//     ChangeTheme();
+// });
 
-function ChangeTheme() {
-    document.body.style.backgroundColor = 'black';
-}
+// function ChangeTheme() {
+//     document.body.style.backgroundColor = 'black';
+//     document.querySelector('main').style.backgroundColor = 'black';
+//     document.querySelector('section').style.backgroundColor = 'gray';
+//     document.body.style.color = 'white';
+// }
 
 </script>
 
 <main>
-    <Header on:NavOption = {HandleNavigation}/>
-    {#if NavigationRoute === 0}
-    <NewStudentForm />
-    {:else if NavigationRoute === 1}
-    <Student />
-    {:else if NavigationRoute === 2}
-    <Hostel />
-    {:else if NavigationRoute === 3}
-    <Services />
-    {:else if NavigationRoute === 4}
-    <Queries />
-    {:else if NavigationRoute === 5}
-    <Security />
-    {:else if NavigationRoute === 6}
-    <Account />
-    {/if}
+    <Header on:changeRoute={HandleNavigation}/>
+    <svelte:component this={routes[NavigationRoute]} />
 </main>
+
 <style>
 main{
     display: grid;
     justify-items: center;
 }
-
 </style>
