@@ -7,11 +7,6 @@ const manageModalState = () => {
     showModal = false;
 }
 
-darkTheme.subscribe(value => {
-    isDark = value;
-    ChangeTheme();
-});
-
 onMount(() => {
    ChangeTheme();
 });

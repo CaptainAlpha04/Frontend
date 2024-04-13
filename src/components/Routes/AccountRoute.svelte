@@ -3,7 +3,6 @@
   import ContentGrid from "../uicomponents/content-grid.svelte";
   import ThemeToggleSwitch from "../uicomponents/themeToggleSwitch.svelte";
   import Modal from "../uicomponents/modal.svelte";
-  import { createEventDispatcher, onMount } from "svelte";
 
   let showModal = false;
   let username; let password;
