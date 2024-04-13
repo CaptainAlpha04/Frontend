@@ -1,5 +1,5 @@
 <script>
-import { onMount } from 'svelte';
+import { onMount, createEventDispatcher} from 'svelte';
 import Header from './microcomponents/Header.svelte';
 import Home from "./Routes/Home.svelte";
 import Student from './Routes/StudentRoute.svelte';
@@ -9,7 +9,10 @@ import Queries from './Routes/Queries.svelte';
 import Security from './Routes/SecurityRoute.svelte';
 import Account from './Routes/AccountRoute.svelte';
 import NewStudentForm from './Routes/Subroutes/newStudentForm.svelte';
+import Card from './uicomponents/card.svelte';
+import { darkTheme } from '../themeStore';
 
+let isDark;
 let NavigationRoute  = 0;
 const routes = {
     0: Home,
@@ -24,17 +27,26 @@ const routes = {
 const HandleNavigation = (e) => {
     NavigationRoute = e.detail;
 }
+// Subscribe to the store
+darkTheme.subscribe(value => {
+    isDark = value;
+    ChangeTheme();
+});
 
-// onMount(() => {
-//     ChangeTheme();
-// });
+function ChangeTheme() {
+        const body = document.body;
+        if (isDark) {  
+                body.style.backgroundColor = 'rgb(0, 0, 0)'; 
+                body.style.color = 'white';
+        } else {
+                body.style.backgroundColor = 'white'; 
+                body.style.color = 'black';
+        }
+}
 
-// function ChangeTheme() {
-//     document.body.style.backgroundColor = 'black';
-//     document.querySelector('main').style.backgroundColor = 'black';
-//     document.querySelector('section').style.backgroundColor = 'gray';
-//     document.body.style.color = 'white';
-// }
+onMount(() => {
+   ChangeTheme();
+});
 
 </script>
 

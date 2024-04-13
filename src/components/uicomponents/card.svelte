@@ -1,10 +1,32 @@
 <script>
+import { onMount } from "svelte";
+import { darkTheme } from "../../themeStore.js";
 export let columnSpan = 4;
 export let rowSpan = 1;
-let gridSpan = `grid-column-start: span ${columnSpan}; grid-row-start: span ${rowSpan}`;
+let cardStyling = `grid-column-start: span ${columnSpan}; grid-row-start: span ${rowSpan};`;
+
+let isDark;
+darkTheme.subscribe(value => {
+    isDark = value;
+    ChangeTheme();
+});
+
+onMount(() => {
+   ChangeTheme();
+});
+
+function ChangeTheme() {
+    if (isDark) {  
+        cardStyling += `background-color: rgb(30, 30, 30);`
+    }
+    else {
+        cardStyling += `background-color: rgb(255, 255, 255);`
+}
+}
+
 </script>
 
-<main style={gridSpan}>
+<main style={cardStyling} class="card">
 <slot>hello</slot>
 </main>
 

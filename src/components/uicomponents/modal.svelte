@@ -1,9 +1,28 @@
 <script>
+  import { onMount } from "svelte";
+
 export let showModal = false;
 
 const manageModalState = () => {
     showModal = false;
 }
+
+darkTheme.subscribe(value => {
+    isDark = value;
+    ChangeTheme();
+});
+
+onMount(() => {
+   ChangeTheme();
+});
+
+function ChangeTheme() {
+    if (localStorage.getItem('darkTheme') === "true") {
+        const modalBox = document.querySelector('.modalBox');
+        modalBox.style.backgroundColor = 'rgb(30, 30, 30)';
+    }
+}
+
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->

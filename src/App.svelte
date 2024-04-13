@@ -64,7 +64,6 @@
     <LoginPage on:Access={loginScreen}/>  <!-- Render login page otherwise -->
   {/if} 
 </main>
-
 <style>
   /* Component styles here */
 </style>

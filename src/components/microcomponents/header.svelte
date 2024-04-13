@@ -1,9 +1,12 @@
 <script>
-import { createEventDispatcher } from "svelte";
+import { createEventDispatcher, onMount } from "svelte";
+import { darkTheme } from "../../themeStore.js";
 
 const dispatch = createEventDispatcher();
 let activeNav = 0;
-
+let isDark;
+let sectionStyling;
+let colorSettings;
 const navOptions = [
     { icon: 'fi fi-rr-house-chimney', id: 0 },
     { icon: 'fi fi-rr-user-graduate', id: 1 },
@@ -17,13 +20,33 @@ function changeRoute(id) {
     activeNav = id;
     dispatch('changeRoute', id);
 }
+
+darkTheme.subscribe(value => {
+    isDark = value;
+    ChangeTheme();
+});
+
+onMount(() => {
+   ChangeTheme();
+});
+
+function ChangeTheme() {
+    if (isDark) {  
+        sectionStyling = `background-color: rgb(30, 30, 30);`; 
+        colorSettings = `color: white;`
+    } else {
+        sectionStyling = `background-color: var(--background-color);`;
+        colorSettings = `color: #073347;`
+    }
+}
+
 </script>
 
-<section>
+<section style={sectionStyling}>
     <img src="/resources/logo.png" alt="Persona" srcset="">
     {#each navOptions as { icon, id }}
         <div class="nav-btn {activeNav === id ? 'active' : ''}" on:click={() => changeRoute(id)}>
-            <i class={icon}></i>
+            <i class={icon} style={colorSettings}></i>
         </div>
     {/each}
     <div class="Account" on:click={() => changeRoute(6)}>

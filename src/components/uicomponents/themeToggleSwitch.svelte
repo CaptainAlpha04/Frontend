@@ -1,12 +1,27 @@
 <script>
-export let StateManager = false;
+import { onMount } from 'svelte';
+import {darkTheme} from '../../themeStore.js';
 
+let stateManager = localStorage.getItem('darkTheme') === "true" ? true : false;
+
+darkTheme.subscribe(value => {
+  stateManager = value;
+});
+
+onMount(() => {
+  const storedValue = localStorage.getItem('darkTheme');
+  stateManager = storedValue === "true" ? true : false;
+});
+
+$: {
+  localStorage.setItem('darkTheme', stateManager ? "true" : "false");
+  darkTheme.set(stateManager);
+}
 </script>
 
 <main>
-
 <label class="switch">
-    <input type="checkbox" bind:checked={StateManager}>
+    <input type="checkbox" bind:checked={stateManager}>
     <span class="slider round"></span>
   </label>
 </main>

@@ -1,19 +1,16 @@
   <script>
   import Card from "../uicomponents/card.svelte";
   import ContentGrid from "../uicomponents/content-grid.svelte";
-  import Toggleswitch from "../uicomponents/toggleswitch.svelte";
+  import ThemeToggleSwitch from "../uicomponents/themeToggleSwitch.svelte";
   import Modal from "../uicomponents/modal.svelte";
+  import { createEventDispatcher, onMount } from "svelte";
 
   let showModal = false;
   let username; let password;
   let requestedPassword = "";
   let newPasswordCheck = "";
   let passwordAlert = false;
-
-  const checkToggleState = () => {
-    
-  }
-    
+ 
   async function logOutRequest() {
     try {
       const response = await fetch("http://localhost:5000/admin/logout", {
@@ -128,7 +125,7 @@ const handleAccountRequest = () => {
       <h3>Personalization</h3>
       <div class="sub-area">
        <p>Dark Theme</p>
-       <Toggleswitch on:click={checkToggleState} />
+      <ThemeToggleSwitch />
       </div>
      </Card>
 
