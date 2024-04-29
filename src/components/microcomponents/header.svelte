@@ -3,7 +3,7 @@ import { createEventDispatcher, onMount } from "svelte";
 import { darkTheme } from "../../themeStore.js";
 
 const dispatch = createEventDispatcher();
-let activeNav = 0;
+export let activeNav = 0;
 let isDark;
 let sectionStyling;
 let colorSettings;
