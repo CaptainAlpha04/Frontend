@@ -4,7 +4,7 @@
     import Card from "../../uicomponents/card.svelte";
     import ContentGrid from "../../uicomponents/content-grid.svelte";
 
-    let FingerprintID = Math.floor(Math.random() * 200);
+    let FingerprintID = Math.floor(Math.random() * 127);
     let UploadedImage;
     let UserImage = "resources\\user-default.png";
 
@@ -27,10 +27,11 @@
             school: e.target[5].value,
             program: e.target[6].value,
             rollNumber: e.target[7].value,
-            fingerprint: e.target[8].value
+            fingerprintID: null //e.target[8].value
         }
+
         // Send request to the server
-        const response = await fetch("http://localhost:5000/students", {
+        const response = await fetch("http://localhost:5000/newStudent", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
