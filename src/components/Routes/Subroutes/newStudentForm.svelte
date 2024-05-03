@@ -21,23 +21,35 @@
 
     async function SubmitForm(e) {
         const student = {
-            name: e.target[0].value + " " + e.target[1].value + " " + e.target[2].value,
-            cnic: e.target[3].value,
-            phone: e.target[4].value,
+            username: e.target[0].value + " " + e.target[1].value + " " + e.target[2].value,
+            CNIC: e.target[3].value,
+            phoneNumber: e.target[4].value,
             school: e.target[5].value,
-            program: e.target[6].value,
-            rollNumber: e.target[7].value,
-            fingerprint: e.target[8].value
+            department: e.target[6].value,
+            qalamId: e.target[7].value,
+            fingerprint_Id: e.target[8].value
         }
+        console.log(student)
         // Send request to the server
-        const response = await fetch("http://localhost:5000/students", {
+        const response = await fetch("http://localhost:5000/student/addNewStudent", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                
             },
             body: JSON.stringify(student)
         });
-    }
+
+        const res = await fetch("http://localhost:5000/fingerprint/getNewStudentID", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                
+            },
+            body: JSON.stringify(student)
+        });
+        console.log(res.JSON)
+    }   
 </script>
 
 <main>
