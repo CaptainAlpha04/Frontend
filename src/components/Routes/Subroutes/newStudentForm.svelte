@@ -7,7 +7,7 @@
     let FingerprintID = Math.floor(Math.random() * 127);
     let UploadedImage;
     let UserImage = "resources\\user-default.png";
-
+    let buttonBool  = false;
     const ImageUploadAction = () => {
         if (UploadedImage && UploadedImage.length > 0) {
             const reader = new FileReader();
@@ -20,14 +20,15 @@
     };
 
     async function SubmitForm(e) {
+        buttonBool = true;
         const student = {
             username: e.target[0].value + " " + e.target[1].value + " " + e.target[2].value,
             CNIC: e.target[3].value,
             phoneNumber: e.target[4].value,
             school: e.target[5].value,
-            program: e.target[6].value,
-            rollNumber: e.target[7].value,
-            fingerprintID: null //e.target[8].value
+            department: e.target[6].value,
+            qalamId: e.target[7].value
+            
         }
 
         // Send request to the server
@@ -39,16 +40,8 @@
             },
             body: JSON.stringify(student)
         });
-
-        const res = await fetch("http://localhost:5000/fingerprint/getNewStudentID", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                
-            },
-            body: JSON.stringify(student)
-        });
-        console.log(res.JSON)
+            
+        console.log(JSON.stringify(student));
     }   
 </script>
 
@@ -101,7 +94,7 @@
             <input type="Number" bind:value={FingerprintID} readonly required>
         </Card>
         <Card>
-            <button type="submit">Submit</button>
+            <button type="submit" disabled = {buttonBool}>Submit</button>
         </Card>
     </form>
     </ContentGrid>
