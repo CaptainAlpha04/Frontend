@@ -31,7 +31,7 @@
         }
 
         // Send request to the server
-        const response = await fetch("http://localhost:5000/newStudent", {
+        const response = await fetch("http://localhost:5000/student/addNewStudent", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
