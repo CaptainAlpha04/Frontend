@@ -1,13 +1,20 @@
 <script>
 export let directoryPath = [];
 export let activeCrumb;
+
+import { createEventDispatcher } from "svelte";
+const dispatch = createEventDispatcher();
+
+function changePath(path) {
+    dispatch("changePath", path);
+}
 </script>
 
 <div class="bread-crumb">
     <ul>
         {#each directoryPath as path}
             <!-- svelte-ignore a11y-click-events-have-key-events -->
-            <li class:active = {path === activeCrumb} on:click={()=>(activeCrumb = path)}>{path}</li>
+            <li class:active = {path === activeCrumb} on:click={()=>changePath(activeCrumb = path)}>{path}</li>
         {/each}
     </ul>
 </div>
