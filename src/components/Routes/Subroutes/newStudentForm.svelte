@@ -1,5 +1,4 @@
 <script>
-    import { prevent_default } from "svelte/internal";
     import Breadcrumb from "../../uicomponents/breadcrumb.svelte";
     import Card from "../../uicomponents/card.svelte";
     import ContentGrid from "../../uicomponents/content-grid.svelte";
@@ -92,9 +91,11 @@
             </Card>
             <Card columnSpan="3" rowSpan="2" class="pictureArea">
                 <h3>Upload Picture</h3>
+                <!-- svelte-ignore a11y-img-redundant-alt -->
                 <img src={UserImage} alt="Upload Image" class="upload-image" />
                 <p>Note: The Image resolution should be less than 500 x 500 px. </p>
                 <input type="file" bind:files={UploadedImage} class="ImageSelector" accept="image/*" />
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
                 <div class = "upload-btn" on:click={ImageUploadAction}>Upload</div>
             </Card>
             <Card columnSpan="3" rowSpan="2">

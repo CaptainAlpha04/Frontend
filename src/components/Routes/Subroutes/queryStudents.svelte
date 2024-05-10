@@ -64,6 +64,15 @@
                     <option value="2020">2020</option>
                     <option value="2019">2019</option>
                 </select>
+                <label for="Department">Department</label>
+                <select name="Department" id="Department" class="drop-down" on:change={searchAllStudent}>
+                    <option value="CS">CS</option>
+                    <option value="SE">SE</option>
+                    <option value="EE">EE</option>
+                    <option value="CE">CE</option>
+                    <option value="ME">ME</option>
+
+                </select>
             </div>
         </div>
         <div class="search-area">
@@ -113,6 +122,7 @@ input[type="text"]{
     display: flex;
     align-items: center;
     padding: 0.2rem;
+    flex-wrap: wrap;
 }
 
 .filter {
