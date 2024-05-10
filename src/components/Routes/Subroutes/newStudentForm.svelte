@@ -120,7 +120,7 @@
                 <label for="room">Room Number</label>
                 <input type="number" placeholder="Room Number" required />
             </Card>
-            <button type="submit" disabled={buttonBool}>Submit</button>
+            <button type="submit" enabled={buttonBool}>Submit</button>
         </ContentGrid>
     </form>
 </main>
