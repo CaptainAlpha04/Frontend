@@ -3,6 +3,7 @@ import { onMount } from "svelte";
 import { darkTheme } from "../../themeStore.js";
 export let columnSpan = 4;
 export let rowSpan = 1;
+export let backgroundImage;
 let cardStyling = `grid-column-start: span ${columnSpan}; grid-row-start: span ${rowSpan};`;
 
 let isDark;
@@ -27,7 +28,9 @@ function ChangeTheme() {
 </script>
 
 <main style={cardStyling} class="card">
-<slot>hello</slot>
+<slot>hello
+</slot>
+<!-- svelte-ignore a11y-img-redundant-alt -->
 </main>
 
 <style>
@@ -47,5 +50,10 @@ main {
 
 main:hover{
     transform: scale3d(1.02, 1.02, 1);
+}
+
+img {
+    object-fit: cover;
+    border-radius: 1rem;
 }
 </style>

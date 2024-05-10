@@ -1,5 +1,5 @@
 <script>
-import { onMount, createEventDispatcher} from 'svelte';
+import {onMount} from 'svelte';
 import Header from './microcomponents/Header.svelte';
 import Home from "./Routes/Home.svelte";
 import Student from './Routes/StudentRoute.svelte';
@@ -8,15 +8,13 @@ import Services from './Routes/Services.svelte';
 import Queries from './Routes/Queries.svelte';
 import Security from './Routes/SecurityRoute.svelte';
 import Account from './Routes/AccountRoute.svelte';
-import NewStudentForm from './Routes/Subroutes/newStudentForm.svelte';
-import Card from './uicomponents/card.svelte';
 import { darkTheme } from '../themeStore';
 
 let isDark;
 let NavigationRoute  = 0;
 Header.activeNav = NavigationRoute;
 const routes = {
-    0: NewStudentForm,
+    0: Home,
     1: Student,
     2: Hostel,
     3: Services,
