@@ -1,6 +1,6 @@
 <script>
 import {onMount} from 'svelte';
-import Header from './microcomponents/Header.svelte';
+import Header from './microcomponents/header.svelte';
 import Home from "./Routes/Home.svelte";
 import Student from './Routes/StudentRoute.svelte';
 import Hostel from './Routes/HostelRoute.svelte';
