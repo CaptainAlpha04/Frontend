@@ -43,7 +43,7 @@ function ChangeTheme() {
 </script>
 
 <section style={sectionStyling}>
-    <img src="/resources/logo.png" alt="Persona" srcset="">
+    <img src={isDark? "/resources/logo-dark.png":"/resources/logo-default.png"} alt="Persona" srcset="">
     {#each navOptions as { icon, id }}
         <div class="nav-btn {activeNav === id ? 'active' : ''}" on:click={() => changeRoute(id)}>
             <i class={icon} style={colorSettings}></i>
