@@ -55,7 +55,9 @@
             body: JSON.stringify(student),
         });
 
-        console.log(JSON.stringify(student));
+        if((await response).status === 200) {
+            console.log("okay!");
+        }
     }
 
     // Function to check the length of CNIC input

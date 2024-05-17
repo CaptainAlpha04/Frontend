@@ -4,7 +4,7 @@ import ContentGrid from "../uicomponents/content-grid.svelte";
 import QueryStudent from "../Routes/Subroutes/queryStudents.svelte";
 import NewStudentForm from "../Routes/Subroutes/newStudentForm.svelte";
 
-let route = 0;
+let route = 1;
 
 function changeRoute(newRoute) {
     console.log(newRoute);

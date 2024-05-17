@@ -5,6 +5,10 @@
     export let imgSrc = "";
     export let studentName = "Ali Imran";
     export let QalamID = 455280;
+    export let school = "school";
+    export let department = "department";
+    export let attendanceStatus = "Present";
+
     let isDark;
     let cardStyling = "";
     darkTheme.subscribe(value => {
@@ -27,10 +31,13 @@
     
     </script>
     
-    <main style = {cardStyling} class="card">
+    <main style = {cardStyling} class="card" on:click>
     <img src={imgSrc} alt="Student">
-    <h4>{studentName}</h4>
     <h4>{QalamID}</h4>
+    <h4>{studentName}</h4>
+    <h4>{school}</h4>
+    <h4>{department}</h4>
+    <h4>{attendanceStatus}</h4>
     </main>
     
     <style>
@@ -50,6 +57,7 @@
         display: flex;
         align-items: center;
         gap: 0.4rem;
+        justify-content: space-around;
         
     }
     

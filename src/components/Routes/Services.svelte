@@ -2,6 +2,7 @@
     import ContentGrid from "../uicomponents/content-grid.svelte"; 
     import Card from "../uicomponents/card.svelte";
     import { onMount } from "svelte";
+  import { get } from "svelte/store";
 
 
     let currentDate = new Date();
@@ -18,27 +19,55 @@
         ["Breakfast", "Lunch", "Dinner"]
     ];
 
-     onMount(() => {
-         const periodData = localStorage.getItem("period");
-         if (periodData) {
-             period = JSON.parse(periodData);
-         }
-         console.log(currentDay)
-     });
+    onMount(() => {
+        getMealData();
+        const periodData = localStorage.getItem("period");
+        if (periodData) {
+            period = JSON.parse(periodData);
+        }
+        console.log(currentDay)
+    });
 
-     const updateValue = (e, i, j) => {
-         period[i][j] = e.target.innerText;
-         console.log(period);
-         localStorage.setItem("period", JSON.stringify(period));
-     };
+    const updateValue = (e, i, j) => {
+        period[i][j] = e.target.innerText;
+        console.log(period);
+        localStorage.setItem("period", JSON.stringify(period));
+        updateMealData();  
+    };
 
-     function isMealTime(hour, mealIndex) {
+    function isMealTime(hour, mealIndex) {
         if (mealIndex === 0) return hour >= 9 && hour <= 11; // Breakfast time
         if (mealIndex === 1) return hour >= 12 && hour <= 14; // Lunch time
         if (mealIndex === 2) return hour >= 18 && hour <= 20; // Dinner time
         return false;
     }
 
+    async function updateMealData() {
+        const response = await fetch("http://localhost:5000/api/mess", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ period }),
+        });
+        const data = await response.json();
+        console.log(data)
+        if (response.status === 200) {
+            console.log("Data updated successfully");
+        } else {
+            console.log("Data not updated");
+        }
+    }
+
+    async function getMealData() {
+        const response = await fetch("http://localhost:5000/api/messData");
+        if (response.status === 200) {
+            localStorage.setItem("period", response);
+        } else {
+            console.log("Data not fetched");
+        }
+    
+    }
 
 </script>
 
@@ -63,8 +92,8 @@
                 <h3>Friday</h3>
                 <h3>Saturday</h3>
                 </div>
-            </Card>
-        {#each period as meal, i}
+        </Card>
+    {#each period as meal, i}
         {#each meal as m, j}
         <Card rowSpan = 1 columnSpan = 1>
             <div class="meal-text">
@@ -76,8 +105,8 @@
             </p>
             </div>
         </Card>
-         {/each}
         {/each}
+    {/each}
 
     </ContentGrid>
 </main>

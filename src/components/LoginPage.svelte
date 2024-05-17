@@ -11,6 +11,9 @@
   let resetPassword = false;
   let newPassword = "";
   let confirmPassword = "";
+  let createAccount = false;
+  let createAccountDisplay = false;
+  let specialKey;
 
   $: forgetPassword = false;
   
@@ -122,14 +125,81 @@
     }
   }
 
+  async function createAdminAccount() {
+      createAccount = true;
+  }
+
+  async function verifySpecialKey() {
+      const response = await fetch('http://localhost:5000/admin/verifyKey', 
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', 
+        },
+        body: JSON.stringify({ specialKey }),
+      })
+      if((await response).status === 200) {
+          createAccountDisplay = true;
+      }
+  }
+
+  async function createAccountRequest() {
+    try {
+    const response = await fetch('http://localhost:5000/admin/createAccount', 
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', 
+      },
+      body: JSON.stringify({ username, password, email }),
+    });
+
+    if((await response).status === 201) {
+      createAccount = false;
+      createAccountDisplay = false;
+      errorMsg = 'Account Created Successfully. Try Logging In.';
+    } else if ((await response).status === 409) {
+      errorMsg = 'User already exists'; 
+    } else {
+      errorMsg = 'An error occurred. Please try again later.';
+    }
+  } catch (error) {
+    errorMsg = 'Unable to Connect to Server';
+  }
+  }
 </script>
 
 <main style={"background-image: url('/resources/nust.jpg')"}>
   <section>
     <!-- svelte-ignore empty-block -->
-    {#if !forgetPassword}
+    {#if createAccount}
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    {#if createAccountDisplay}
+    <form on:submit|preventDefault = {createAccountRequest}>
+      <h1>Create Admin Account</h1>
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Enter username" bind:value = {username} required />
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Enter email" bind:value = {email} required />
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter password" bind:value = {password} required />
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" bind:value = {confirmPassword} required />
+      <button type="submit">Create Account</button>
+      <p class="errMsg">{errorMsg}</p>  
+    </form>
+    {:else}
+    <form on:submit|preventDefault = {verifySpecialKey}>
+      <h1>Create Admin Account</h1>
+      <label for="SpecialKey">Special Key</label>
+      <input type="text" id="specialKey" placeholder="Enter Special Key" bind:value={specialKey} required/>
+      <button type="submit">Verify Special Key</button>
+      <p class="errMsg">{errorMsg}</p>
+    </form>
+    {/if}
+    {:else if !forgetPassword}
 
-    <form class="login-form" on:submit={handleLogin}>
+    <form class="login-form" on:submit|preventDefault={handleLogin}>
       <h1>Admin Login</h1>
       <label for="username">Username</label>
       <input
@@ -148,7 +218,13 @@
 
       <p class="errMsg">{errorMsg}</p>
     </form>
-    <p class="forgetPassword" on:click = {manageForgetPassword}>Forget Password?</p>
+    <div class="links">
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <p class = "clickablePLink" on:click = {createAdminAccount}>Create An Account</p>
+    <p class ="clickablePLink">|</p>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <p class="clickablePLink" on:click = {manageForgetPassword}>Forget Password?</p>
+    </div>
     {:else if resetPassword}
     <form on:submit|preventDefault = {resetPasswordRequest}>
       <h1>Reset Password</h1>
@@ -250,11 +326,16 @@ h1 {
   grid-column: span 3;
 }
 
-.forgetPassword {
+.clickablePLink {
   text-align: center;
   color: gray;
   cursor: pointer;
   margin-top: 2rem;
 }
 
+.links {
+  grid-column: span 3;
+  display: flex;
+  gap: 1rem;
+}
 </style>

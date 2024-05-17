@@ -1,12 +1,13 @@
 <script>
-    import { onMount } from 'svelte';
+    import { onMount, createEventDispatcher } from 'svelte';
     import ContentGrid from '../../uicomponents/content-grid.svelte';
     import TableRow from '../../uicomponents/tableRow.svelte';
     import Breadcrumb from '../../uicomponents/breadcrumb.svelte';
 
+    let dispatch = createEventDispatcher();
     let searchBox = "";
     let filterOptions = "display: none";
-    let students = [];
+    $: students = [];
 
     const displayFilterOptions = () => {
         filterOptions = filterOptions === "display: none" ? "display: block" : "display: none";
@@ -17,22 +18,47 @@
     });
 
     const searchAllStudent = async () => {
-        const response = await fetch(`http://localhost:5000/daily_attendance/`);
+        const response = await fetch(`http://localhost:5000/student/getAllStudents/`);
         students = await response.json();
-        console.log(students)
+        console.log()
     }
 
     const searchStudentByQalam = async () => {
-        const response = await fetch(`http://localhost:5000/daily_attendance/${searchBox}`);
+        const response = await fetch(`http://localhost:5000/student/getStudent/${searchBox}`);
         students = await response.json();
-        console.log(students)
     }
+
+    async function individualRecord(qalamId) {
+        dispatch('changePath', { newPath: `student/${qalamId}` });
+    }
+
+    async function deleteAllStudents() {
+        const response = await fetch(`http://localhost:5000/students/daily_attendance`, {
+            method: 'DELETE',
+            headers: {
+            "Content-Type": 'application/json'
+            }
+
+        });
+        students = [];
+        console.log(students);
+    }
+
 </script>
 
 <main>
     <h1>Search Student</h1>
+    <div class="TopActions">
+        <div class="breadcrumb">
     <Breadcrumb directoryPath={["Student Management", "Query Students"]} activeCrumb="Query Students" on:changePath/>
-
+        </div> 
+        <div class="deleteAllStudents">
+            <p>Delete All Students</p>
+            <button on:click = {deleteAllStudents}>
+                <i class="fi fi-br-trash"></i>
+            </button>
+        </div>      
+    </div>
     <div class="settings-area">
         <div class="filter-area">
             <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -51,8 +77,8 @@
                 </select>
                 <label for="degree">Degree</label>
                 <select name="degree" id="degree" class="drop-down" on:change={searchAllStudent}>
-                    <option value="BSCS">Undergraduate</option>
-                    <option value="BSSE">Postgraduate</option>
+                    <option value="BSCS">UG</option>
+                    <option value="BSSE">PG</option>
                     <option value="BSEE">PhD</option>
                 </select>
                 <label for="batch">Batch</label>
@@ -75,22 +101,28 @@
                 </select>
             </div>
         </div>
-        <div class="search-area">
+        <div class="search-area"> 
             <input type="text" placeholder="Enter Qalam ID" bind:value={searchBox}>
-            <button on:click={searchStudentByQalam}>Search</button>
+            <button on:click={searchStudentByQalam}>
+                <i class="fi fi-br-search"></i>
+            </button>
         </div>
     </div>
     <ContentGrid>
+        {#if students.length === 0}
+            <p>No Student Found</p>
+        {:else}
         {#each students as student}
-            <TableRow studentName={student.Student_Name} QalamID={student.Qalam_Id} />
+            <TableRow studentName={student.username} QalamID={student.qalamId} school={student.school} department={student.department} attendanceStatus on:click={() => {individualRecord(student.qalamId)}}/>
         {/each}
+        {/if}
     </ContentGrid>
 </main>
 
 <style>
     
 main{
-    display: flex;
+    display: grid;
     flex-direction: column;
     align-items: center;
     justify-items: center;
@@ -115,6 +147,7 @@ input[type="text"]{
     width: 100%;
     padding: 1rem;
     align-items: center;
+    align-content: center;
 
 }
 
@@ -135,4 +168,22 @@ input[type="text"]{
 .search-area {
     align-self: flex-end;
 }
+
+.TopActions {
+    display: grid;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.breadcrumb {
+    justify-self: flex-start;
+}
+
+.deleteAllStudents {
+    display: flex;
+    gap: 0.5rem;
+    justify-self: flex-end;
+}
+
 </style>
