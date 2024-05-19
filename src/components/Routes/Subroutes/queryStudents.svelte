@@ -25,7 +25,11 @@
 
     const searchStudentByQalam = async () => {
         const response = await fetch(`http://localhost:5000/student/getStudent/${searchBox}`);
-        students = await response.json();
+        if ((await response).status === 404 ) {
+            students = []
+        } else {
+            students = await response.json();
+        }
     }
 
     async function individualRecord(qalamId) {
@@ -43,6 +47,22 @@
         students = [];
         console.log(students);
     }
+
+    async function filterStudents() {
+        const response = await fetch(`http://localhost:5000/student/filterStudents`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": 'application/json'
+            },
+            body: JSON.stringify({
+                hostel: document.getElementById('hostel').value,
+                degree: document.getElementById('degree').value,
+                department: document.getElementById('Department').value
+            })
+    });  
+    students = await response.json();
+    console.log(students)
+}
 
 </script>
 
@@ -65,8 +85,8 @@
             <i class="fi fi-rr-settings-sliders filter" on:click={displayFilterOptions}></i>
             <div class="fitlerOptions" style={filterOptions}>
                 <label for="hostel">Hostel</label>
-                <select name="hostel" id="hostel" class="drop-down" on:change={searchAllStudent}>
-                    <option value="Admin">Admin</option>
+                <select name="hostel" id="hostel" class="drop-down" on:change={filterStudents}>
+                    <option value="none">None</option>
                     <option value="Zakarya">Zakarya</option>
                     <option value="Razi I">Razi I</option>
                     <option value="Razi II">Razi II</option>
@@ -76,22 +96,15 @@
                     <option value="Ayesha">Ayesha</option>
                 </select>
                 <label for="degree">Degree</label>
-                <select name="degree" id="degree" class="drop-down" on:change={searchAllStudent}>
-                    <option value="BSCS">UG</option>
-                    <option value="BSSE">PG</option>
-                    <option value="BSEE">PhD</option>
-                </select>
-                <label for="batch">Batch</label>
-                <select name="batch" id="batch" class="drop-down" on:change={searchAllStudent}>
-                    <option value="2024">2024</option>
-                    <option value="2023">2023</option>
-                    <option value="2022">2022</option>
-                    <option value="2021">2021</option>
-                    <option value="2020">2020</option>
-                    <option value="2019">2019</option>
+                <select name="degree" id="degree" class="drop-down" on:change={filterStudents}>
+                    <option value="none">None</option>
+                    <option value="UG">UG</option>
+                    <option value="PG">PG</option>
+                    <option value="PHD">PhD</option>
                 </select>
                 <label for="Department">Department</label>
-                <select name="Department" id="Department" class="drop-down" on:change={searchAllStudent}>
+                <select name="Department" id="Department" class="drop-down" on:change={filterStudents}>
+                    <option value="none">None</option>
                     <option value="CS">CS</option>
                     <option value="SE">SE</option>
                     <option value="EE">EE</option>
@@ -112,8 +125,8 @@
         {#if students.length === 0}
             <p>No Student Found</p>
         {:else}
-        {#each students as student}
-            <TableRow studentName={student.username} QalamID={student.qalamId} school={student.school} department={student.department} attendanceStatus on:click={() => {individualRecord(student.qalamId)}}/>
+        {#each students as student, i}
+            <TableRow index={i+1} studentName={student.username} QalamID={student.qalamId} school={student.school} department={student.department} attendanceStatus on:click={() => {individualRecord(student.qalamId)}}/>
         {/each}
         {/if}
     </ContentGrid>

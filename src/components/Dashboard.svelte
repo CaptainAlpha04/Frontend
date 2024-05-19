@@ -11,7 +11,7 @@ import Account from './Routes/AccountRoute.svelte';
 import { darkTheme } from '../themeStore';
 
 let isDark;
-let NavigationRoute = 1;
+let NavigationRoute = 0;
 Header.activeNav = NavigationRoute;
 const routes = {
     0: Home,

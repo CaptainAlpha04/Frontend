@@ -44,6 +44,7 @@
             department,
             hostelName: hostel,
             roomNumber: roomNum,
+            image: UserImage,
         };
 
         // Send request to the server

@@ -7,7 +7,8 @@
     export let QalamID = 455280;
     export let school = "school";
     export let department = "department";
-    export let attendanceStatus = "Present";
+    export let attendancePercentage  = 0;
+    export let index = 0
 
     let isDark;
     let cardStyling = "";
@@ -31,13 +32,15 @@
     
     </script>
     
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
     <main style = {cardStyling} class="card" on:click>
+    <h4>{index}</h4>
     <img src={imgSrc} alt="Student">
     <h4>{QalamID}</h4>
     <h4>{studentName}</h4>
     <h4>{school}</h4>
     <h4>{department}</h4>
-    <h4>{attendanceStatus}</h4>
+    <h4>{attendancePercentage}%</h4>
     </main>
     
     <style>
