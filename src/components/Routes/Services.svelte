@@ -10,13 +10,13 @@
     let currentDay = currentDate.getDay();
     console.log(currentDay)
     let period = [
-        ["Breakfast", "Lunch", "Dinner"],
-        ["Breakfast", "Lunch", "Dinner"],
-        ["Breakfast", "Lunch", "Dinner"],
-        ["Breakfast", "Lunch", "Dinner"],
-        ["Breakfast", "Lunch", "Dinner"],
-        ["Breakfast", "Lunch", "Dinner"],
-        ["Breakfast", "Lunch", "Dinner"]
+        ["Halwa Puri", "Beans", "Daal and Kebab"],
+        ["Fried Egg", "ALu Palak", "Chicken Roast"],
+        ["Naan Channay", "Kari", "Palao"],
+        ["Omelette", "Daal with Salad", "Karahi"],
+        ["French Toast", "Mix Vegetables", "Biryani"],
+        ["Alu Bhujia", "Daal Chawal", "Chicken Karahi"],
+        ["Alu Paratha", "Alu Gobi", "Palao"]
     ];
 
     onMount(() => {
