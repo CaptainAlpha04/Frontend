@@ -10,10 +10,6 @@ let complaint = []
 let Quote = "Brevity is the Wit of the Soul";
 let Author = "William Shakespeare";
 
-function redirectRoute() {
-
-}
-
 onMount(() => {
     getComplaints();
     getQuote();
