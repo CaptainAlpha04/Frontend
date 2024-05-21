@@ -7,6 +7,8 @@ import BarGraph from "../uicomponents/Graphs/barGraph.svelte";
   import { onMount } from "svelte";
 
 let complaint = []
+let Quote = "Brevity is the Wit of the Soul";
+let Author = "William Shakespeare";
 
 function redirectRoute() {
 
@@ -14,7 +16,15 @@ function redirectRoute() {
 
 onMount(() => {
     getComplaints();
+    getQuote();
 })
+
+async function getQuote() {
+    const response = await fetch('http://localhost:5000/api/generateQuote');
+    const data = await response.json();
+    Quote = data.quote;
+    Author = data.author;
+}
 
 async function getComplaints() {
         const response = await fetch(`http://localhost:5000/complaints/getAllComplaints`);
@@ -44,8 +54,10 @@ async function getComplaints() {
     </div>
     {/each}
 </Card>
-<Card rowSpan = 1 columnSpan = 1/>
-<Card rowSpan = 1 columnSpan = 1/>
+<Card rowSpan = 1 columnSpan = 2>
+    <h2>Quote of the Moment!</h2>
+    <p><i>{Quote}</i><br>~{Author}</p>
+</Card>
 </ContentGrid>
 </main>
 

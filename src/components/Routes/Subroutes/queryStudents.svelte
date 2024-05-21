@@ -126,7 +126,7 @@
             <p>No Student Found</p>
         {:else}
         {#each students as student, i}
-            <TableRow index={i+1} studentName={student.username} QalamID={student.qalamId} school={student.school} department={student.department} attendanceStatus on:click={() => {individualRecord(student.qalamId)}}/>
+            <TableRow index={i+1} imgSrc = {getStudentImage} studentName={student.username} QalamID={student.qalamId} school={student.school} department={student.department} attendanceStatus on:click={() => {individualRecord(student.qalamId)}}/>
         {/each}
         {/if}
     </ContentGrid>

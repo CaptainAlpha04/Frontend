@@ -38,7 +38,7 @@
             CNIC: cnic,
             phoneNumber,
             email,
-            //image: UserImage,
+            image: UserImage,
             qalamId,
             school,
             department,

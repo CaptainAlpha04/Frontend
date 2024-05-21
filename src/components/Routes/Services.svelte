@@ -2,7 +2,7 @@
     import ContentGrid from "../uicomponents/content-grid.svelte"; 
     import Card from "../uicomponents/card.svelte";
     import { onMount } from "svelte";
-  import { get } from "svelte/store";
+    import { get } from "svelte/store";
 
 
     let currentDate = new Date();

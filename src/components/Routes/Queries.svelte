@@ -5,6 +5,7 @@
 
     let complaint = [];
     let query = [];
+    let queryResponse = [];
 
     onMount(()=>{
         getComplains();
@@ -20,6 +21,42 @@
         const response = await fetch(`http://localhost:5000/queries/getAllQueries`);
         query = await response.json();
     }
+
+    async function resolveComplaint(title) {
+        try {
+            const response = await fetch(`http://localhost:5000/complaints/resolveComplaint`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({title})
+        });
+            if((await response).status === 200) {
+                getComplains();
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async function submitQueryResponse(title, i) {
+        console.log("button")
+        try {
+            const response = await fetch(`http://localhost:5000/queries/queryRespond`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({title, queryResponse: queryResponse[i]})
+        });
+            if((await response).status === 200) {
+                getQuery();
+                queryResponse = [];
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 </script>
 
 <main>
@@ -31,7 +68,7 @@
             <Card>
                 <div class= "card-Component">
                     <h2>{c.title}</h2>
-                    <button><i class="fi fi-br-check"></i></button>
+                    <button on:click={() => {resolveComplaint(c.title)}}><i class="fi fi-br-check"></i></button>
                 </div>
                 <p>{c.description}</p>
             </Card>
@@ -40,7 +77,7 @@
         </div>
         <div class="Queries">
             <h2>Queries</h2>
-            {#each query as q}
+            {#each query as q, i}
             <Card>
                 <div class= "card-Component">
                     <h2>{q.title}</h2>
@@ -48,10 +85,12 @@
                 </div>
                 <p>{q.description}</p>
                 <div class="response">
-                    <input type="text" placeholder="Enter your response here">
-                    <button
+                    <form class = "queryForm" on:submit|preventDefault = {() => {submitQueryResponse(q.title, i)}}>
+                    <input type="text" placeholder="Enter your response here" bind:value = {queryResponse[i]} required>
+                    <button type="submit"
                     style = {"background-Color: var(--first-primary-accent-color); color: black;"}
                     ><i class="fi fi-br-paper-plane-top"></i></button>
+                    </form>
                 </div>
             </Card>
             <p></p>
@@ -90,13 +129,13 @@
         color: white;
     }
 
-    .response {
+
+    .queryForm {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
     }
-
     
     input[type="text"]{
     width: 20svw;
